@@ -24,7 +24,8 @@
 </article> <!-- gallery-wrap .end// -->
 		</aside>
 		<main class="col-md-6 border-left">
-			<form action="{% url 'add_cart' single_product.id %}" method="GET">
+			<form action="{% url 'add_cart' single_product.id %}" method="POST">
+				{% csrf_token %}
 				<article class="content-body">
 
 				<h2 class="title">{{single_product.product_name}}</h2>
@@ -42,21 +43,27 @@
 					<div class="col-md-6">
 						<div class="item-option-select">
 							<h6>oru color eduk kuttah</h6>
-							<select name="color" class="form-control">
-								<option value="red">chumala</option>
-								<option value="yellow">manjaaa</option>
-								<option value="green">kili_pacha</option>
+							<select name="color" class="form-control" required>
+								<option value=""disable selected >choose color </option>
+								{% for i in single_product.variation_set.colors %}
+								<option value="{{i.variation_value }}">{{i.variation_value | capfirst}}</option>
+								
+								{% endfor %}
 							</select>
+							
 						</div>
 					</div>
 
 					<div class="col-md-6">
 						<div class="item-option-select">
 							<h6>Select Size</h6>
-							<select name="size" class="form-control">
-								<option value="small">cheruth</option>
-								<option value="Medium">Medium</option>
-								<option value="Large">Valuth</option>
+							<select name="size" class="form-control" required>
+								<option value=""disable selected >Select</option>
+								{% for i in single_product.variation_set.sizes %}
+								<option value="{{i.variation_value | lower }}">{{i.variation_value | capfirst }}</option>
+								{% endfor%}
+								<!-- <option value="Medium">Medium</option>
+								<option value="Large">Valuth</option> -->
 							</select>
 						</div>
 					</div>
@@ -69,18 +76,21 @@
 						{% if single_product.stock <= 0 %}
 							<h5 class="text-danger">Out of stock</h5>
 						{% else %}
-							{% if in_cart %}
+							<button type="submit" class="btn btn-primary">
+									Add to cart <i class="fas fa-shopping-cart"></i>
+								</button>
+							<!-- {% if in_cart %}
 								<a href="#" class="btn btn-success">
 									Added to cart <i class="fas fa-check"></i>
 								</a>
 								<a href="{% url 'cart' %}" class="btn btn-primary">
 									View Cart <i class="fas fa-shopping-cart"></i>
 								</a>
-							{% else %}
-								<button type="submit" class="btn btn-primary">
+							{% else %} -->
+								<!-- <button type="submit" class="btn btn-primary">
 									Add to cart <i class="fas fa-shopping-cart"></i>
-								</button>
-							{% endif %}
+								</button> -->
+							<!-- {% endif %} -->
 						{% endif %}
 					</div>
 				</div>
