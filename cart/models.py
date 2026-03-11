@@ -5,6 +5,8 @@ from store.models import Variation
 # Create your models here.
 from accounts.models import Account
 
+
+
 class Cart(models.Model):
     cart_id=models.CharField(max_length=200,blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
